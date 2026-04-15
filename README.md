@@ -313,7 +313,7 @@ Forge Cloud Backend — Proprietary
 
 <div align="center">
 
-Built by [Noel Rajakumar](https://github.com/noelrajakumar) and [Muthu Kumar](https://github.com/muthukumar) · Chennai, India
+Built by [Noel PS](https://github.com/noelps-git) · Chennai, India
 
 *"The best tools get out of your way."*
 
