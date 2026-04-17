@@ -1,18 +1,45 @@
-# Go
+# ── Build output ────────────────────────────────────────────────────────────
 bin/
+dist/
 *.exe
 *.test
 *.out
 coverage.out
 coverage.html
 
-# macOS
+# ── Secrets & credentials — NEVER COMMIT ────────────────────────────────────
+.env
+.env.*
+*.env
+config.local.toml
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+id_rsa
+id_ed25519
+*.secret
+secrets.yml
+secrets.yaml
+secrets.json
+*_secret*
+*_private*
+*.credentials
+.netrc
+.npmrc
+.pypirc
+
+# ── macOS ────────────────────────────────────────────────────────────────────
 .DS_Store
 .AppleDouble
 .LSOverride
 ._*
+.Spotlight-V100
+.Trashes
 
-# Xcode
+# ── Xcode ────────────────────────────────────────────────────────────────────
 DerivedData/
 *.xcworkspace/
 *.pbxuser
@@ -29,7 +56,7 @@ xcuserdata/
 *.xcscmblueprint
 *.xcresult
 
-# Android Studio / IntelliJ
+# ── Android Studio / IntelliJ ────────────────────────────────────────────────
 .gradle/
 .idea/
 *.iml
@@ -39,18 +66,21 @@ captures/
 .externalNativeBuild/
 .cxx/
 
-# Forge runtime files
+# ── Forge runtime ────────────────────────────────────────────────────────────
 ~/.forge/
 *.pid
+forge.db
+forge.db-shm
+forge.db-wal
 
-# Secrets — never commit these
-*.env
-.env
-.env.local
-config.local.toml
-
-# Editor
+# ── Editor ───────────────────────────────────────────────────────────────────
 .vscode/
+.cursor/
 *.swp
 *.swo
 *~
+
+# ── Test & profiling artifacts ───────────────────────────────────────────────
+*.prof
+*.trace
+testdata/tmp/
