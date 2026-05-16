@@ -1,0 +1,51 @@
+<idea-plugin>
+    <id>dev.forgeapp.forge</id>
+    <name>Forge</name>
+    <version>0.1.0</version>
+    <vendor email="hello@forgeapp.dev" url="https://forgeapp.dev">ForgeApp</vendor>
+    <description>AI pair programmer for Android Studio. Connects to your local Forge daemon to bring Claude directly into your editor.</description>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Forge" anchor="right" secondary="false"
+                    factoryClass="dev.forgeapp.forge.ui.ForgeToolWindowFactory"
+                    icon="/icons/forge.svg"/>
+        <applicationConfigurable
+            parentId="tools"
+            instance="dev.forgeapp.forge.settings.ForgeConfigurable"
+            id="dev.forgeapp.forge.settings"
+            displayName="Forge AI"/>
+        <applicationService serviceImplementation="dev.forgeapp.forge.settings.ForgeSettings"/>
+        <notificationGroup id="Forge Notifications" displayType="BALLOON"/>
+    </extensions>
+
+    <actions>
+        <group id="ForgeActionGroup" text="Forge" popup="true">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <separator/>
+            <action id="ForgeAskAction"
+                    class="dev.forgeapp.forge.actions.AskForgeAction"
+                    text="Ask Forge..."
+                    description="Ask Forge AI about selected code"
+                    icon="/icons/forge.svg">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt F"/>
+            </action>
+            <action id="ForgeExplainAction"
+                    class="dev.forgeapp.forge.actions.ExplainCodeAction"
+                    text="Explain Selection"
+                    description="Ask Forge to explain the selected code"/>
+            <action id="ForgeFixErrorAction"
+                    class="dev.forgeapp.forge.actions.FixErrorAction"
+                    text="Fix Current Error"
+                    description="Ask Forge to fix the error at cursor"/>
+        </group>
+        <action id="ForgeAskToolsMenu"
+                class="dev.forgeapp.forge.actions.AskForgeAction"
+                text="Ask Forge..."
+                description="Ask Forge AI">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt F"/>
+        </action>
+    </actions>
+</idea-plugin>

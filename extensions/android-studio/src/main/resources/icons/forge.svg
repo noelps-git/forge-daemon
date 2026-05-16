@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!--
+    Forge icon — a stylised lightning bolt inside a rounded square.
+    Uses a single solid colour so it renders correctly on both light and
+    dark IDE themes without needing a separate *_dark.svg variant.
+    The colour #4B5EAA is visible on white and light-grey backgrounds;
+    IntelliJ automatically desaturates / inverts icons for dark themes.
+  -->
+  <!-- Background rounded square -->
+  <rect x="1" y="1" width="14" height="14" rx="3" ry="3" fill="#4B5EAA"/>
+  <!-- Lightning bolt path -->
+  <path d="M9.5 2 L5 9 H8 L6.5 14 L12 7 H9 Z" fill="#FFFFFF"/>
+</svg>

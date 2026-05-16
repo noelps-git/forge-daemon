@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+
+    <key>CFBundleIdentifier</key>
+    <string>dev.forgeapp.ForgeXcode</string>
+
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+
+    <key>CFBundleName</key>
+    <string>Forge for Xcode</string>
+
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+
+    <key>CFBundleShortVersionString</key>
+    <string>0.1.0</string>
+
+    <key>CFBundleVersion</key>
+    <string>1</string>
+
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
+
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2026 Noel PS. All rights reserved.</string>
+
+    <key>NSHumanReadableDescription</key>
+    <string>AI pair programmer for Xcode</string>
+
+    <!-- Required for macOS apps — prevents the app from appearing in the Dock
+         (it is a helper / status app, not a document-based app). Comment out
+         if you want a Dock icon. -->
+    <!-- <key>LSUIElement</key> <true/> -->
+
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <!-- Allow plain HTTP to localhost for the Forge daemon -->
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
+</dict>
+</plist>
