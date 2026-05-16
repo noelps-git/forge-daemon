@@ -6,7 +6,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"sync"
 
@@ -308,23 +310,78 @@ func (s *session) toolGetErrors(id any) {
 
 // ---------- helpers ----------
 
+func resolveAllowedProjectPath(path string) (string, error) {
+	if path == "" {
+		return "", fmt.Errorf("empty project path")
+	}
+	if !filepath.IsAbs(path) {
+		return "", fmt.Errorf("project path must be absolute")
+	}
+
+	projectsRoot := os.Getenv("FORGE_PROJECTS_ROOT")
+	if projectsRoot == "" {
+		return "", fmt.Errorf("FORGE_PROJECTS_ROOT is not configured")
+	}
+
+	rootAbs, err := filepath.Abs(projectsRoot)
+	if err != nil {
+		return "", fmt.Errorf("resolve projects root: %w", err)
+	}
+	rootReal, err := filepath.EvalSymlinks(rootAbs)
+	if err != nil {
+		return "", fmt.Errorf("resolve projects root symlinks: %w", err)
+	}
+
+	pathAbs, err := filepath.Abs(path)
+	if err != nil {
+		return "", fmt.Errorf("resolve project path: %w", err)
+	}
+	pathReal, err := filepath.EvalSymlinks(pathAbs)
+	if err != nil {
+		return "", fmt.Errorf("resolve project path symlinks: %w", err)
+	}
+
+	info, err := os.Stat(pathReal)
+	if err != nil {
+		return "", fmt.Errorf("project path does not exist: %w", err)
+	}
+	if !info.IsDir() {
+		return "", fmt.Errorf("project path is not a directory")
+	}
+
+	rel, err := filepath.Rel(rootReal, pathReal)
+	if err != nil {
+		return "", fmt.Errorf("check project path containment: %w", err)
+	}
+	if rel == ".." || strings.HasPrefix(rel, ".."+string(filepath.Separator)) || filepath.IsAbs(rel) {
+		return "", fmt.Errorf("project path is outside allowed root")
+	}
+
+	return pathReal, nil
+}
+
 func (s *session) sendResult(id any, result any) {
 	_ = s.send(jsonRPCResponse{ID: id, Result: result})
 }
 
 func (s *session) setProject(path string) {
+	validPath, err := resolveAllowedProjectPath(path)
+	if err != nil {
+		return
+	}
+
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	if s.index != nil {
 		s.index.Stop()
 	}
-	idx, err := index.New(path)
+	idx, err := index.New(validPath)
 	if err == nil {
 		go idx.Start() //nolint:errcheck
 		s.index = idx
 	}
-	s.projectPath = path
+	s.projectPath = validPath
 }
 
 func (s *session) getIndex() *index.Index {
