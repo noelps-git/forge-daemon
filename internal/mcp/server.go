@@ -318,6 +318,16 @@ func resolveAllowedProjectPath(path string) (string, error) {
 		return "", fmt.Errorf("project path must be absolute")
 	}
 
+	cleanPath := filepath.Clean(path)
+	if !filepath.IsAbs(cleanPath) {
+		return "", fmt.Errorf("project path must be absolute")
+	}
+	for _, part := range strings.Split(cleanPath, string(filepath.Separator)) {
+		if part == ".." {
+			return "", fmt.Errorf("project path contains invalid traversal segment")
+		}
+	}
+
 	projectsRoot := os.Getenv("FORGE_PROJECTS_ROOT")
 	if projectsRoot == "" {
 		return "", fmt.Errorf("FORGE_PROJECTS_ROOT is not configured")
@@ -332,7 +342,7 @@ func resolveAllowedProjectPath(path string) (string, error) {
 		return "", fmt.Errorf("resolve projects root symlinks: %w", err)
 	}
 
-	pathAbs, err := filepath.Abs(path)
+	pathAbs, err := filepath.Abs(cleanPath)
 	if err != nil {
 		return "", fmt.Errorf("resolve project path: %w", err)
 	}
